@@ -39,7 +39,8 @@ class SponsorSignatureTest(unittest.TestCase):
                     for name, value in {
                         "name": "CLIENTE PRUEBA", "address": "CALLE MAYOR", "zip": "28001",
                         "city": "MADRID", "country": "ESPANA", "phone": "600123456",
-                        "email": "cliente@example.com", "sponsorName": "PATROCINADOR", "sponsorId": "123",
+                        "email": "cliente@example.com", "vatNumber": "12345678Z",
+                        "sponsorName": "PATROCINADOR", "sponsorId": "123",
                     }.items():
                         page.locator(f'[name="{name}"]').fill(value)
                     page.check('[name="accepted"]')

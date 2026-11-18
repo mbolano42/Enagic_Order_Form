@@ -5,9 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#123c62">
   <title>Formulario de pedido | Enagic</title>
-  <link rel="stylesheet" href="style.css?v=20261118-2">
+  <link rel="stylesheet" href="style.css?v=20261118-3">
   <script defer src="vendor/pdf-lib.min.js"></script>
-  <script defer src="app.js?v=20261118-2"></script>
+  <script defer src="app.js?v=20261118-3"></script>
 </head>
 <body>
   <header class="hero">
@@ -76,7 +76,7 @@
           <label>País y prefijo del teléfono móvil<select name="mobilePrefix"></select></label>
           <label>Teléfono móvil, sin prefijo<input name="mobile" type="tel" maxlength="60"></label>
           <label>Correo electrónico <span class="required">*</span><input name="email" type="email" required autocomplete="email" maxlength="100"></label>
-          <label>DNI / NIF<input name="vatNumber" maxlength="60"></label>
+          <label>DNI / NIF (Formato: 12345678X) <span class="required">*</span><input name="vatNumber" required spellcheck="false"><span class="hint">La letra del ejemplo es ilustrativa; introduce la letra de control correspondiente.</span></label>
         </div>
       </section>
       <section class="card">
@@ -88,7 +88,7 @@
             <label><input type="radio" name="product" value="anespa"> Anespa DX <small>2.800 € sin IVA</small></label>
           </div>
         </fieldset>
-        <fieldset><legend>¿Está dado de alta en el Registro de Operadores Intracomunitarios?</legend>
+        <fieldset><legend>¿Está dado de alta en el Registro de Operadores Intracomunitarios (ROI)?</legend>
           <div class="choices"><label><input type="radio" name="intraCommunity" value="no" checked> No</label><label><input type="radio" name="intraCommunity" value="yes"> Sí</label></div>
         </fieldset>
         <div class="grid">
@@ -112,9 +112,13 @@
         <div class="grid">
           <label>Nombre del patrocinador <span class="required">*</span><input name="sponsorName" required maxlength="80"></label>
           <label>ID del patrocinador <span class="required">*</span><input name="sponsorId" required maxlength="60"></label>
-          <label>Nombre del reclutador<input name="recruiterName" maxlength="80"></label>
-          <label>ID del reclutador<input name="recruiterId" maxlength="60"></label>
-          <label>Línea del patrocinador (A line)<input name="sponsorLine" maxlength="10"></label>
+          <fieldset class="wide recruiter-question">
+            <legend>¿Desea donar puntos a su reclutador?</legend>
+            <div class="choices"><label><input type="radio" name="donatePoints" value="no" checked> No</label><label><input type="radio" name="donatePoints" value="yes"> Sí</label></div>
+          </fieldset>
+          <label>Nombre del reclutador<input name="recruiterName" maxlength="80" disabled></label>
+          <label>ID del reclutador<input name="recruiterId" maxlength="60" disabled></label>
+          <label>Línea del patrocinador (A line)<select name="sponsorLine"><option value="">Selecciona una línea</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option></select></label>
           <label>Correo del patrocinador<input name="sponsorEmail" type="email" maxlength="100"></label>
           <label>Fecha de firma del patrocinador<input name="sponsorDate" type="date"></label>
         </div>

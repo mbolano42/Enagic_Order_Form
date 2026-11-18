@@ -47,6 +47,28 @@ function syncPhoneValidity(phone) {
     : "");
 }
 
+function syncDniValidity() {
+  const dni = form.elements.vatNumber;
+  const value = dni.value.toUpperCase();
+  if (dni.value !== value) dni.value = value;
+  let message = "";
+  if (value && !/^[0-9]{8}[A-Z]$/.test(value)) {
+    message = "Introduce ocho cifras y una letra, sin espacios.";
+  } else if (value && "TRWAGMYFPDXBNJZSQVHLCKE"[Number(value.slice(0, 8)) % 23] !== value[8]) {
+    message = "La letra de control del DNI / NIF no es correcta.";
+  }
+  dni.setCustomValidity(message);
+}
+
+function syncRecruiterFields() {
+  const enabled = form.elements.donatePoints.value === "yes";
+  for (const name of ["recruiterName", "recruiterId"]) {
+    const field = form.elements[name];
+    field.disabled = !enabled;
+    if (!enabled) field.value = "";
+  }
+}
+
 function updatePrices() {
   const product = prices[form.elements.product.value];
   const format = cents => (cents / 100).toFixed(2).replace(".", ",");
@@ -71,6 +93,8 @@ form.addEventListener("input", event => {
   }
   if ((name === "address" && form.elements.differentShipping.value === "no") || name === "differentShipping") syncShippingAddress();
   if (name === "phone" || name === "mobile") syncPhoneValidity(event.target);
+  if (name === "vatNumber") syncDniValidity();
+  if (name === "donatePoints") syncRecruiterFields();
   if (name === "product" || name === "intraCommunity") updatePrices();
   if (name === "fee") syncInitialPayment();
   invalidateOutput();
@@ -78,6 +102,8 @@ form.addEventListener("input", event => {
 syncShippingAddress();
 syncPhoneValidity(form.elements.phone);
 syncPhoneValidity(form.elements.mobile);
+syncDniValidity();
+syncRecruiterFields();
 updatePrices();
 syncInitialPayment();
 
