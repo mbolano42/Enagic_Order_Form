@@ -118,10 +118,10 @@
           <label>Correo del patrocinador<input name="sponsorEmail" type="email" maxlength="100"></label>
           <label>Fecha de firma del patrocinador<input name="sponsorDate" type="date"></label>
         </div>
-        <p class="hint">La firma del patrocinador es independiente de la tuya. Si no está disponible, deberá añadirse antes de presentar el pedido.</p>
+        <p class="hint">La firma del patrocinador es independiente de la tuya. El patrocinador puede dibujarla aquí; si no está disponible, deberá añadirse antes de presentar el pedido.</p>
         <div class="signature-box" id="sponsor-signature">
-          <label>Firma del patrocinador (si ya está disponible)</label>
-          <canvas width="1000" height="300" aria-label="Vista previa de la firma del patrocinador"></canvas>
+          <label for="sponsor-signature-canvas">Firma del patrocinador (si ya está disponible)</label>
+          <canvas id="sponsor-signature-canvas" width="1000" height="300" aria-label="Zona para dibujar la firma del patrocinador"></canvas>
           <div class="signature-actions">
             <label class="upload">Subir imagen<input type="file" accept="image/*" aria-label="Subir imagen de la firma del patrocinador"></label>
             <button type="button" class="button secondary camera-open">Abrir cámara</button>

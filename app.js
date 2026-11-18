@@ -146,7 +146,7 @@ function removePhotoBackground(source, width, height) {
 
 let activeCamera = null;
 
-function createSignatureEditor(id, canDraw) {
+function createSignatureEditor(id) {
   const root = document.getElementById(id);
   const canvas = root.querySelector("canvas");
   const context = canvas.getContext("2d", { willReadFrequently: true });
@@ -213,32 +213,30 @@ function createSignatureEditor(id, canDraw) {
     }
   }
 
-  if (canDraw) {
-    function point(event) {
-      const rect = canvas.getBoundingClientRect();
-      return { x: (event.clientX - rect.left) * canvas.width / rect.width, y: (event.clientY - rect.top) * canvas.height / rect.height };
-    }
-    canvas.addEventListener("pointerdown", event => {
-      if (loading) return;
-      invalidateOutput();
-      drawing = true;
-      canvas.setPointerCapture(event.pointerId);
-      const p = point(event);
-      context.beginPath();
-      context.moveTo(p.x, p.y);
-      context.lineTo(p.x + 0.1, p.y + 0.1);
-      context.stroke();
-      present = true;
-      status.textContent = "Firma dibujada. Puedes borrarla y volver a empezar.";
-    });
-    canvas.addEventListener("pointermove", event => {
-      if (!drawing) return;
-      const p = point(event);
-      context.lineTo(p.x, p.y);
-      context.stroke();
-    });
-    for (const event of ["pointerup", "pointercancel", "lostpointercapture"]) canvas.addEventListener(event, () => { drawing = false; });
+  function point(event) {
+    const rect = canvas.getBoundingClientRect();
+    return { x: (event.clientX - rect.left) * canvas.width / rect.width, y: (event.clientY - rect.top) * canvas.height / rect.height };
   }
+  canvas.addEventListener("pointerdown", event => {
+    if (loading) return;
+    invalidateOutput();
+    drawing = true;
+    canvas.setPointerCapture(event.pointerId);
+    const p = point(event);
+    context.beginPath();
+    context.moveTo(p.x, p.y);
+    context.lineTo(p.x + 0.1, p.y + 0.1);
+    context.stroke();
+    present = true;
+    status.textContent = "Firma dibujada. Puedes borrarla y volver a empezar.";
+  });
+  canvas.addEventListener("pointermove", event => {
+    if (!drawing) return;
+    const p = point(event);
+    context.lineTo(p.x, p.y);
+    context.stroke();
+  });
+  for (const event of ["pointerup", "pointercancel", "lostpointercapture"]) canvas.addEventListener(event, () => { drawing = false; });
 
   root.querySelector(".signature-clear").addEventListener("click", () => {
     invalidateOutput();
@@ -297,8 +295,8 @@ function createSignatureEditor(id, canDraw) {
   };
 }
 
-const applicantSignature = createSignatureEditor("applicant-signature", true);
-const sponsorSignature = createSignatureEditor("sponsor-signature", false);
+const applicantSignature = createSignatureEditor("applicant-signature");
+const sponsorSignature = createSignatureEditor("sponsor-signature");
 document.addEventListener("visibilitychange", () => { if (document.hidden && activeCamera) activeCamera(); });
 
 function formattedDate(date) {

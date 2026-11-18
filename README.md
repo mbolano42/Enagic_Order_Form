@@ -12,7 +12,7 @@ Para probar en local, ejecuta `py -m http.server 8000` desde esta carpeta y abre
 
 ## Uso y limitaciones
 
-- El cliente revisa el documento original, completa el formulario y dibuja su firma, sube una imagen o toma una foto con la cámara. También puede cargar o fotografiar la firma del patrocinador. Las imágenes se procesan en el dispositivo y se convierten en PNG transparente; la firma del solicitante se incorpora proporcionalmente en ambas páginas y su fecha se toma del reloj del dispositivo.
+- El cliente revisa el documento original, completa el formulario y dibuja su firma, sube una imagen o toma una foto con la cámara. El patrocinador también puede dibujar su firma, cargarla o fotografiarla. Las imágenes se procesan en el dispositivo y se convierten en PNG transparente; la firma del solicitante se incorpora proporcionalmente en ambas páginas y su fecha se toma del reloj del dispositivo.
 - En la primera página, ambas firmas utilizan el mismo espacio máximo que la firma de la segunda página y pueden superponerse al resto del documento. Las imágenes se escalan proporcionalmente; la firma de la segunda página conserva su tamaño anterior.
 - Para retirar el fondo, usa papel claro y liso, buena iluminación y una firma oscura. Revisa la vista previa: sombras, fondos complejos o trazos muy claros pueden afectar al resultado; vuelve a hacer la foto si es necesario. Se admiten los formatos de imagen que pueda abrir el navegador, de hasta 20 MB.
 - La cámara requiere permiso y HTTPS o `localhost`. Si no está disponible, utiliza la opción de subir imagen. La cámara se detiene al cerrarla o al cambiar de pestaña.
