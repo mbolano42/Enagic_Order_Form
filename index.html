@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#123c62">
+  <title>Formulario de pedido | Enagic</title>
+  <link rel="stylesheet" href="style.css">
+  <script defer src="vendor/pdf-lib.min.js"></script>
+  <script defer src="app.js"></script>
+</head>
+<body>
+  <header class="hero">
+    <div class="wrap">
+      <p class="eyebrow">ENAGIC · FORMULARIO DE PEDIDO</p>
+      <h1>Tu pedido, paso a paso.</h1>
+      <p>Completa tus datos y firma para preparar el documento de pedido.</p>
+      <div class="hero-note">Tus datos se procesan en este dispositivo. El pedido no se envía hasta que confirmes el correo.</div>
+    </div>
+  </header>
+  <main class="wrap">
+    <form id="order-form">
+      <p class="intro">Los campos marcados con <span class="required">*</span> son obligatorios. Escribe preferiblemente en mayúsculas, como indica el documento original.</p>
+      <section class="card">
+        <div class="section-title"><span>01</span><div><h2>Datos del solicitante</h2><p>Información de contacto y dirección.</p></div></div>
+        <fieldset><legend>Registrar como <span class="required">*</span></legend>
+          <div class="choices"><label><input type="radio" name="registration" value="user" required> Utilizador</label><label><input type="radio" name="registration" value="distributor"> Distribuidor</label></div>
+          <p class="hint">Para distribuidores se requieren también el Acuerdo de Distribuidor y un documento de identificación; deberán enviarse por separado.</p>
+        </fieldset>
+        <div class="grid">
+          <label>Nombre y apellidos <span class="required">*</span><input name="name" required autocomplete="name" maxlength="100"></label>
+          <label>Nombre de la compañía<input name="company" autocomplete="organization" maxlength="100"></label>
+          <label class="wide">Dirección <span class="required">*</span><input name="address" required autocomplete="street-address" maxlength="180"></label>
+          <label>Código postal <span class="required">*</span><input name="zip" required autocomplete="postal-code" maxlength="30"></label>
+          <label>Ciudad <span class="required">*</span><input name="city" required autocomplete="address-level2" maxlength="100"></label>
+          <label>País <span class="required">*</span><input name="country" required autocomplete="country-name" maxlength="60"></label>
+          <fieldset class="wide shipping-field">
+            <legend>Dirección de envío</legend>
+            <div class="shipping-choice"><span>¿Es diferente a la dirección anteriormente especificada?</span>
+              <div class="choices"><label><input type="radio" name="differentShipping" value="no" checked> No</label><label><input type="radio" name="differentShipping" value="yes"> Sí</label></div>
+            </div>
+            <label>Dirección de envío <span class="required" id="shipping-required" hidden>*</span><input name="shippingAddress" maxlength="180" disabled></label>
+          </fieldset>
+          <label>País y prefijo del teléfono <span class="required">*</span>
+            <select name="phonePrefix" required>
+              <option value="+49">Alemania (+49)</option>
+              <option value="+43">Austria (+43)</option>
+              <option value="+32">Bélgica (+32)</option>
+              <option value="+359">Bulgaria (+359)</option>
+              <option value="+357">Chipre (+357)</option>
+              <option value="+385">Croacia (+385)</option>
+              <option value="+45">Dinamarca (+45)</option>
+              <option value="+421">Eslovaquia (+421)</option>
+              <option value="+386">Eslovenia (+386)</option>
+              <option value="+34" selected>España (+34)</option>
+              <option value="+372">Estonia (+372)</option>
+              <option value="+358">Finlandia (+358)</option>
+              <option value="+33">Francia (+33)</option>
+              <option value="+30">Grecia (+30)</option>
+              <option value="+36">Hungría (+36)</option>
+              <option value="+353">Irlanda (+353)</option>
+              <option value="+39">Italia (+39)</option>
+              <option value="+371">Letonia (+371)</option>
+              <option value="+370">Lituania (+370)</option>
+              <option value="+352">Luxemburgo (+352)</option>
+              <option value="+356">Malta (+356)</option>
+              <option value="+31">Países Bajos (+31)</option>
+              <option value="+48">Polonia (+48)</option>
+              <option value="+351">Portugal (+351)</option>
+              <option value="+420">República Checa (+420)</option>
+              <option value="+40">Rumanía (+40)</option>
+              <option value="+46">Suecia (+46)</option>
+            </select>
+          </label>
+          <label>Teléfono, sin prefijo <span class="required">*</span><input name="phone" type="tel" required autocomplete="tel-national" maxlength="60"></label>
+          <label>País y prefijo del teléfono móvil<select name="mobilePrefix"></select></label>
+          <label>Teléfono móvil, sin prefijo<input name="mobile" type="tel" maxlength="60"></label>
+          <label>Correo electrónico <span class="required">*</span><input name="email" type="email" required autocomplete="email" maxlength="100"></label>
+          <label>DNI / NIF<input name="vatNumber" maxlength="60"></label>
+        </div>
+      </section>
+      <section class="card">
+        <div class="section-title"><span>02</span><div><h2>Detalles del pedido</h2><p>Los importes se calculan al seleccionar un producto.</p></div></div>
+        <fieldset><legend>Producto <span class="required">*</span></legend>
+          <div class="choices product-choices">
+            <label><input type="radio" name="product" value="k8" required> LeveLuk K-8 <small>4.600 € sin IVA</small></label>
+            <label><input type="radio" name="product" value="sd501"> LeveLuk SD501 DX <small>3.740 € sin IVA</small></label>
+            <label><input type="radio" name="product" value="anespa"> Anespa DX <small>2.800 € sin IVA</small></label>
+          </div>
+        </fieldset>
+        <fieldset><legend>¿Está dado de alta en el Registro de Operadores Intracomunitarios?</legend>
+          <div class="choices"><label><input type="radio" name="intraCommunity" value="no" checked> No</label><label><input type="radio" name="intraCommunity" value="yes"> Sí</label></div>
+        </fieldset>
+        <div class="grid">
+          <label>Precio (€)<input name="price" readonly></label>
+          <label>IVA (€)<input name="vat" readonly></label>
+          <label>Envío (€)<input name="shipping" readonly></label>
+          <label>Total (€)<input name="total" readonly></label>
+        </div>
+        <p class="hint">Precios de la tabla de noviembre de 2026. Si indicas que estás inscrito en el ROI, el IVA se establece en 0 €. Confirma que corresponda a tu pedido. El total no incluye la tasa administrativa ni descuenta el pago inicial.</p>
+        <fieldset><legend>Forma de pago <span class="required">*</span></legend>
+          <div class="choices"><label><input type="radio" name="payment" value="transfer" required> Transferencia</label><label><input type="radio" name="payment" value="visa"> Visa</label><label><input type="radio" name="payment" value="mc"> Mastercard</label><label><input type="radio" name="payment" value="amex"> Amex</label></div>
+        </fieldset>
+        <fieldset><legend>Tasa administrativa para clientes con E-payment (€)</legend>
+          <div class="choices"><label><input type="radio" name="fee" value="none" checked> No corresponde</label><label><input type="radio" name="fee" value="30"> 30</label><label><input type="radio" name="fee" value="60"> 60</label><label><input type="radio" name="fee" value="100"> 100</label><label><input type="radio" name="fee" value="160"> 160</label><label><input type="radio" name="fee" value="240"> 240</label></div>
+          <label class="initial-payment">Pago inicial (€)<input name="initialPayment" inputmode="decimal" maxlength="20" disabled></label>
+          <p class="hint">Para E-payment se requieren el Acuerdo de Financiación y el DNI, que deberán enviarse por separado. No introduzcas números de tarjeta en este formulario.</p>
+        </fieldset>
+      </section>
+      <section class="card">
+        <div class="section-title"><span>03</span><div><h2>Información del patrocinador</h2><p>Completa los datos facilitados por tu patrocinador.</p></div></div>
+        <div class="grid">
+          <label>Nombre del patrocinador <span class="required">*</span><input name="sponsorName" required maxlength="80"></label>
+          <label>ID del patrocinador <span class="required">*</span><input name="sponsorId" required maxlength="60"></label>
+          <label>Nombre del reclutador<input name="recruiterName" maxlength="80"></label>
+          <label>ID del reclutador<input name="recruiterId" maxlength="60"></label>
+          <label>Línea del patrocinador (A line)<input name="sponsorLine" maxlength="10"></label>
+          <label>Correo del patrocinador<input name="sponsorEmail" type="email" maxlength="100"></label>
+          <label>Fecha de firma del patrocinador<input name="sponsorDate" type="date"></label>
+        </div>
+        <p class="hint">La firma del patrocinador es independiente de la tuya. Si no está disponible, deberá añadirse antes de presentar el pedido.</p>
+        <div class="signature-box" id="sponsor-signature">
+          <label>Firma del patrocinador (si ya está disponible)</label>
+          <canvas width="1000" height="300" aria-label="Vista previa de la firma del patrocinador"></canvas>
+          <div class="signature-actions">
+            <label class="upload">Subir imagen<input type="file" accept="image/*" aria-label="Subir imagen de la firma del patrocinador"></label>
+            <button type="button" class="button secondary camera-open">Abrir cámara</button>
+            <button type="button" class="button secondary signature-clear">Borrar firma</button>
+          </div>
+          <div class="camera" hidden>
+            <video autoplay playsinline muted aria-label="Vista de la cámara"></video>
+            <div class="signature-actions"><button type="button" class="button secondary camera-capture">Tomar foto</button><button type="button" class="button secondary camera-close">Cerrar cámara</button></div>
+          </div>
+          <p class="hint signature-status" role="status">Aún no has añadido una firma.</p>
+          <p class="hint">Usa una firma oscura sobre papel claro y liso. Comprueba la vista previa: los fondos complejos o las sombras pueden afectar al resultado.</p>
+        </div>
+      </section>
+      <section class="card">
+        <div class="section-title"><span>04</span><div><h2>Firma y condiciones</h2><p>Firma con el dedo o el ratón, sube una imagen o utiliza la cámara.</p></div></div>
+        <p>Revisa el <a href="srcs/Kangen_Orders.pdf" target="_blank" rel="noopener">formulario original y sus condiciones generales</a> antes de firmar.</p>
+        <label class="check"><input type="checkbox" name="accepted" required> <span>He leído el documento y acepto las declaraciones y condiciones indicadas junto a la firma. <span class="required">*</span></span></label>
+        <div class="signature-box" id="applicant-signature">
+          <label for="signature-canvas">Firma del solicitante <span class="required">*</span></label>
+          <canvas id="signature-canvas" width="1000" height="300" aria-label="Zona para dibujar la firma"></canvas>
+          <div class="signature-actions">
+            <button type="button" class="button secondary signature-clear">Borrar firma</button>
+            <label class="upload">Subir imagen<input type="file" accept="image/*" aria-label="Subir imagen de la firma del solicitante"></label>
+            <button type="button" class="button secondary camera-open">Abrir cámara</button>
+          </div>
+          <div class="camera" hidden>
+            <video autoplay playsinline muted aria-label="Vista de la cámara"></video>
+            <div class="signature-actions"><button type="button" class="button secondary camera-capture">Tomar foto</button><button type="button" class="button secondary camera-close">Cerrar cámara</button></div>
+          </div>
+          <p class="hint signature-status" role="status">Aún no has añadido una firma.</p>
+          <p class="hint">Usa una firma oscura sobre papel claro y liso. Comprueba la vista previa: los fondos complejos o las sombras pueden afectar al resultado.</p>
+        </div>
+        <p class="hint">Se añadirá la fecha actual del dispositivo en la primera página y la misma firma al final de la segunda. La firma es una imagen, no una firma digital con certificado.</p>
+        <p class="hint">En la primera página, ambas firmas tienen el mismo espacio máximo que la firma de la segunda página y pueden superponerse a otros datos.</p>
+      </section>
+      <section class="card send-card">
+        <h2>Preparar y enviar</h2>
+        <p>Generaremos el PDF en tu dispositivo. Después podrás compartirlo con tu aplicación de correo o descargarlo y adjuntarlo al mensaje preparado.</p>
+        <button type="submit" class="button primary" id="submit-button">Preparar envío <span aria-hidden="true">→</span></button>
+        <p id="status" role="status" aria-live="polite"></p>
+        <div id="send-options" hidden>
+          <div class="choices send-actions"><button type="button" class="button secondary" id="share-button" hidden>Compartir PDF</button><button type="button" class="button secondary" id="download-button">Descargar PDF</button><a class="button secondary" id="email-link">Abrir correo preparado</a></div>
+          <p class="hint">En el correo, comprueba el destinatario, adjunta el PDF si es necesario y pulsa Enviar. La aplicación no envía el mensaje automáticamente.</p>
+        </div>
+      </section>
+    </form>
+    <footer>Formulario basado en el documento original de Enagic · El correo con el pedido contiene datos personales.</footer>
+  </main>
+</body>
+</html>
