@@ -2,10 +2,8 @@
 
 const form = document.getElementById("order-form");
 const statusMessage = document.getElementById("status");
-const sendOptions = document.getElementById("send-options");
-const shareButton = document.getElementById("share-button");
+const downloadOptions = document.getElementById("download-options");
 const downloadButton = document.getElementById("download-button");
-const emailLink = document.getElementById("email-link");
 let generatedFile = null;
 let generatedUrl = null;
 let revision = 0;
@@ -13,11 +11,11 @@ let revision = 0;
 function invalidateOutput() {
   revision++;
   if (!generatedFile) return;
-  sendOptions.hidden = true;
+  downloadOptions.hidden = true;
   generatedFile = null;
   if (generatedUrl) URL.revokeObjectURL(generatedUrl);
   generatedUrl = null;
-  setStatus("Los datos han cambiado. Vuelve a preparar el envío para actualizar el PDF.");
+  setStatus("Los datos han cambiado. Vuelve a generar el PDF para actualizarlo.");
 }
 
 const prices = {
@@ -430,36 +428,22 @@ form.addEventListener("submit", async event => {
   }
   const button = document.getElementById("submit-button");
   button.disabled = true;
-  sendOptions.hidden = true;
+  downloadOptions.hidden = true;
   setStatus("Preparando el documento…");
   try {
     const bytes = await buildPdf(data);
-    if (revision !== startingRevision) throw new Error("Los datos han cambiado durante la generación. Vuelve a preparar el envío.");
+    if (revision !== startingRevision) throw new Error("Los datos han cambiado durante la generación. Vuelve a generar el PDF.");
     if (generatedUrl) URL.revokeObjectURL(generatedUrl);
     generatedFile = new File([bytes], "Pedido-Enagic.pdf", { type: "application/pdf" });
     generatedUrl = URL.createObjectURL(generatedFile);
-    const subject = `Pedido de ${String(data.get("name")).trim()}`;
-    const body = "Hola,\n\nAdjunto el formulario de pedido cumplimentado y firmado.\n\nUn saludo.";
-    emailLink.href = `mailto:miguel.bolano.ruiz@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
     downloadButton.onclick = () => {
       const link = document.createElement("a");
       link.href = generatedUrl;
       link.download = generatedFile.name;
       link.click();
     };
-    const shareData = { files: [generatedFile], title: subject, text: `${body}\n\nDestinatario: miguel.bolano.ruiz@gmail.com` };
-    shareButton.hidden = !(navigator.canShare && navigator.canShare({ files: [generatedFile] }));
-    shareButton.onclick = async () => {
-      try {
-        await navigator.share(shareData);
-        setStatus("Comprueba los datos y confirma el envío en la aplicación que hayas elegido.");
-      } catch (error) {
-        if (error.name === "AbortError") setStatus("Se canceló la acción de compartir. Puedes volver a intentarlo o adjuntar el PDF manualmente.");
-        else setStatus("No se pudo compartir el archivo. Descarga el PDF y adjúntalo al correo preparado.", true);
-      }
-    };
-    sendOptions.hidden = false;
-    setStatus("PDF preparado. Compártelo por correo o descárgalo y adjúntalo al mensaje.");
+    downloadOptions.hidden = false;
+    setStatus("PDF preparado. Ya puedes descargarlo.");
   } catch (error) {
     console.error("Error al generar el PDF:", error);
     setStatus(error.message || "No se pudo generar el PDF. Vuelve a intentarlo.", true);

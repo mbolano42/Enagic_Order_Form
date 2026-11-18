@@ -5,9 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#123c62">
   <title>Formulario de pedido | Enagic</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css?v=20261118-2">
   <script defer src="vendor/pdf-lib.min.js"></script>
-  <script defer src="app.js"></script>
+  <script defer src="app.js?v=20261118-2"></script>
 </head>
 <body>
   <header class="hero">
@@ -15,7 +15,7 @@
       <p class="eyebrow">ENAGIC · FORMULARIO DE PEDIDO</p>
       <h1>Tu pedido, paso a paso.</h1>
       <p>Completa tus datos y firma para preparar el documento de pedido.</p>
-      <div class="hero-note">Tus datos se procesan en este dispositivo. El pedido no se envía hasta que confirmes el correo.</div>
+      <div class="hero-note">Tus datos se procesan en este dispositivo. El PDF se descarga sin enviarse automáticamente.</div>
     </div>
   </header>
   <main class="wrap">
@@ -158,17 +158,16 @@
         <p class="hint">En la primera página, ambas firmas tienen el mismo espacio máximo que la firma de la segunda página y pueden superponerse a otros datos.</p>
       </section>
       <section class="card send-card">
-        <h2>Preparar y enviar</h2>
-        <p>Generaremos el PDF en tu dispositivo. Después podrás compartirlo con tu aplicación de correo o descargarlo y adjuntarlo al mensaje preparado.</p>
-        <button type="submit" class="button primary" id="submit-button">Preparar envío <span aria-hidden="true">→</span></button>
+        <h2>Generar y descargar</h2>
+        <p>Generaremos el PDF en tu dispositivo para que puedas descargarlo.</p>
+        <button type="submit" class="button primary" id="submit-button">Generar PDF <span aria-hidden="true">→</span></button>
         <p id="status" role="status" aria-live="polite"></p>
-        <div id="send-options" hidden>
-          <div class="choices send-actions"><button type="button" class="button secondary" id="share-button" hidden>Compartir PDF</button><button type="button" class="button secondary" id="download-button">Descargar PDF</button><a class="button secondary" id="email-link">Abrir correo preparado</a></div>
-          <p class="hint">En el correo, comprueba el destinatario, adjunta el PDF si es necesario y pulsa Enviar. La aplicación no envía el mensaje automáticamente.</p>
+        <div id="download-options" hidden>
+          <div class="choices send-actions"><button type="button" class="button secondary" id="download-button">Descargar PDF</button></div>
         </div>
       </section>
     </form>
-    <footer>Formulario basado en el documento original de Enagic · El correo con el pedido contiene datos personales.</footer>
+    <footer>Formulario basado en el documento original de Enagic · El pedido contiene datos personales.</footer>
   </main>
 </body>
 </html>

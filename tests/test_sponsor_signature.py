@@ -33,6 +33,7 @@ class SponsorSignatureTest(unittest.TestCase):
                 try:
                     page = browser.new_page(has_touch=True, accept_downloads=True)
                     page.goto(f"http://127.0.0.1:{server.server_address[1]}/")
+                    self.assertEqual(page.locator("#share-button, #email-link, a[href^='mailto:']").count(), 0)
                     for name, value in [("registration", "user"), ("product", "k8"), ("payment", "transfer")]:
                         page.check(f'[name="{name}"][value="{value}"]')
                     for name, value in {
@@ -65,7 +66,7 @@ class SponsorSignatureTest(unittest.TestCase):
                     self.assertIn("patrocinador", page.locator("#status").inner_text())
                     page.locator('[name="sponsorDate"]').fill("2026-11-18")
                     page.locator("#submit-button").click()
-                    page.wait_for_selector("#send-options:not([hidden])")
+                    page.wait_for_selector("#download-options:not([hidden])")
                     with page.expect_download() as download:
                         page.locator("#download-button").click()
                     pdf = pymupdf.open(stream=Path(download.value.path()).read_bytes(), filetype="pdf")
@@ -74,7 +75,7 @@ class SponsorSignatureTest(unittest.TestCase):
                     pdf.close()
 
                     page.locator("#sponsor-signature .signature-clear").click()
-                    self.assertFalse(page.locator("#send-options").is_visible())
+                    self.assertFalse(page.locator("#download-options").is_visible())
                     page.locator("#submit-button").click()
                     self.assertIn("patrocinador", page.locator("#status").inner_text())
                     sponsor.scroll_into_view_if_needed()
